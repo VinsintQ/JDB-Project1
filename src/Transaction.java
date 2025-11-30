@@ -8,6 +8,7 @@ public class Transaction {
      private LocalDateTime date;
      private String type;
 
+
     public Transaction(int transaction_id, double amount, LocalDateTime date, String type) {
         this.transaction_id = transaction_id;
         this.amount = amount;
