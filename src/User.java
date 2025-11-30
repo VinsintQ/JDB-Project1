@@ -5,8 +5,33 @@ public class User {
     private String last_Name;
     private String hashedPassword;
     private char user_Role;
-    private int id ;
+    private int user_id ;
     private double balance ;
+    private String email ;
+
+
+
+
+
+    public User(String user_Name, String first_Name, String last_Name, String hashedPassword, String email, double balance, int id, char user_Role) {
+        this.user_Name = user_Name;
+        this.first_Name = first_Name;
+        this.last_Name = last_Name;
+        this.hashedPassword = hashedPassword;
+        this.email = email;
+        this.balance = balance;
+        this.user_id = id;
+        this.user_Role = user_Role;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getUser_Name() {
         return user_Name;
@@ -57,10 +82,10 @@ public class User {
     }
 
     public int getId() {
-        return id;
+        return user_id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        user_id = id;
     }
 }
