@@ -1,4 +1,4 @@
-public class DebitCard {
+public abstract class DebitCard {
     private String accountId;
     private String cardNumber;
     private String expiryDate;
@@ -6,7 +6,7 @@ public class DebitCard {
     private String mastercardTypeId;
     private String issuedDate;
     private String status;
-
+    private String type;
 
     public DebitCard( String accountId, String cardNumber,
                      String expiryDate, String cvv, String mastercardTypeId,
@@ -23,6 +23,20 @@ public class DebitCard {
     }
 
 
+    public abstract double getWithdrawLimitPerDay();
+    public abstract double getTransferLimitPerDay();
+    public abstract double getTransferOwnAccountLimitPerDay();
+    public abstract double getDepositLimitPerDay();
+    public abstract double getDepositOwnAccountLimitPerDay();
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getAccountId() {
         return accountId;
