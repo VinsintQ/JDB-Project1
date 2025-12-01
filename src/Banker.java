@@ -3,6 +3,6 @@ public class Banker extends User{
 
 
     public Banker(String user_Name, String first_Name, String last_Name, String hashedPassword, String email, double balance, int id, char user_Role) {
-        super(user_Name, first_Name, last_Name, hashedPassword, email, balance, id, user_Role);
+        super(user_Name, first_Name, last_Name, hashedPassword, balance, id, user_Role);
     }
 }

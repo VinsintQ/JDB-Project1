@@ -1,0 +1,2 @@
+Id,userName,fname,lname,password,status,balance,role
+10001,SaadIqbaal,saad,iqbal,juagw362,Active,1000,B
