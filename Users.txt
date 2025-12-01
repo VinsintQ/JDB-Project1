@@ -1,2 +1,4 @@
 Id,userName,fname,lname,password,status,balance,role
 10001,SaadIqbaal,saad,iqbal,juagw362,Active,1000,B
+100,mueen,mueen,ali,123123,Pending,0,C
+1002,mohd,abbas,123,Pending,0,C

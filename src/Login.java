@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -13,15 +14,58 @@ public class Login {
   public static boolean LogIn(){
       Scanner kb = new Scanner(System.in);
       boolean found ;
+      System.out.println("Enter User Name");
       do {
-          System.out.println("Enter User Name");
+
           String user_name = kb.nextLine();
          found= findUser(user_name);
+         if (found){
+             break;
+          }else {
+             System.out.println("Enter username again :");
+         }
       }while (!found);
 
       return true;
 
   }
+  public static void Register(){
+      Scanner kb = new Scanner(System.in);
+      boolean found;
+      System.out.println("Enter User Name : ");
+      do {
+
+          String user_name = kb.nextLine();
+          String password ;
+          String first_name;
+          String last_name;
+
+          found= findUser(user_name);
+         if (!found){
+             System.out.println("Enter passwoord");
+             password = kb.nextLine();
+             System.out.println("Enter first name : ");
+              first_name = kb.nextLine();
+             System.out.println("Enter last name");
+             last_name = kb.nextLine();
+             try {
+                 FileWriter Writer = new FileWriter("Users.txt",true);
+                 Writer.write("\n1002"+user_name+","+first_name+","+last_name+","+password+","+"Pending,"+"0,"+"C");
+                 Writer.close();
+             } catch (Exception e) {
+                 throw new RuntimeException(e);
+             }
+             System.out.println("your account has been created , and will be reviewed in 24h");
+
+             break;
+         }else {
+             System.out.println("user name is used , ty another");
+             user_name = kb.nextLine();
+         }
+      }while (found);
+
+  }
+
 
   public static boolean findUser(String user_name){
       String line;
@@ -57,7 +101,7 @@ public class Login {
                      logged_in=true;
                  }
              }else if (input.equals("signup")){
-                 System.out.println("not implemented yet");
+                 Register();
              }
 
          }
