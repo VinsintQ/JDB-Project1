@@ -1,3 +1,4 @@
-ac_number,1002,blanace,status,type
-Ab1234,1000,1230,active,checking
-Ab1234,1000,1230,active,saving
+1020,1000,1230,active,checking
+1021,1000,1230,active,saving
+Abc1234Ba,1001,0,active,checking
+1022,1001,0,active,saving

@@ -77,8 +77,12 @@ public class HomePage {
              last_name = kb.nextLine();
              try {
                  FileWriter Writer = new FileWriter("Users.txt",true);
-                 Writer.write("\n1002"+user_name+","+first_name+","+last_name+","+password+","+"false,"+"0,"+"C");
+                 int id =generateId("Users.txt");
+                 Writer.write("\n"+id+","+user_name+","+first_name+","+last_name+","+password+","+"false,"+"0,"+"C");
                  Writer.close();
+                 FileWriter AccWriter = new FileWriter("Accounts.txt",true);
+                 AccWriter.write("\nAbc1234Ba,"+id+",0,active,checking");
+                 AccWriter.close();
              } catch (Exception e) {
                  throw new RuntimeException(e);
              }
@@ -149,4 +153,25 @@ public class HomePage {
 
       homePage();
     }
+
+    public static int generateId(String fileName) {
+        int maxId = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                int id = Integer.parseInt(parts[0]);
+                if (id > maxId) {
+                    maxId = id;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return maxId + 1;   // new unique ID
+    }
+
 }

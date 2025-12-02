@@ -1,4 +1,2 @@
-Id,userName,fname,lname,password,status,balance,role
-10001,SaadIqbaal,saad,iqbal,juagw362,true,1000,B
 1000,mueen,mueen,ali,123123,false,0,C
-1002jomana,jomana,fona,123123,false,0,C
+1001,jomana,ali,ko,123,false,0,C

@@ -1,7 +1,10 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public  class Account {
 
@@ -23,7 +26,30 @@ private String account_type;
         this.account_type = account_type;
     }
 
-    public List<Account> getAccounts(int user_id){
+    public static void CreateSavingAccount(int user_id){
+        Scanner kb = new Scanner(System.in);
+       List<Account> current_account = getAccounts(user_id);
+       String input ;
+
+
+       if (current_account.size()==1){
+           try {
+               int id = HomePage.generateId("Accounts.txt");
+               FileWriter Writer = new FileWriter("Accounts.txt",true);
+               Writer.write("\n"+id+","+user_id+",0,active,saving");
+               Writer.close();
+           } catch (Exception e) {
+               throw new RuntimeException(e);
+           }
+           System.out.println("created succesfuly,enter to go back ....");
+           kb.nextLine();
+       }else{
+           System.out.println("you already have saving account, enter to go back .....");
+           kb.nextLine();
+       }
+    }
+
+    public static List<Account> getAccounts(int user_id){
         List<Account> useraccounts =new ArrayList<>();
         String line ;
         Account a1 =null;
@@ -49,7 +75,7 @@ private String account_type;
 
     @Override
     public String toString() {
-        return account_number +" : "+balance +" : "+status+" : "+account_type;
+        return "Account number : "+account_number +" , Blance : "+balance +" ("+status+") : "+account_type+" Account";
     }
 
     public String getAccount_number() {
