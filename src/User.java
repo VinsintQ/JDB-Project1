@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class User {
 
     private String user_Name;
@@ -7,7 +9,7 @@ public class User {
     private char user_Role;
     private int user_id ;
     private double balance ;
-
+    private List<Account> accounts;
 
 
 
