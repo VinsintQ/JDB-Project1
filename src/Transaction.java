@@ -7,13 +7,22 @@ public class Transaction {
      private double amount ;
      private LocalDateTime date;
      private String type;
+     private double Balance_after;
 
-
-    public Transaction(int transaction_id, double amount, LocalDateTime date, String type) {
+    public Transaction(int transaction_id, double amount, LocalDateTime date, String type,Double Balance_after) {
         this.transaction_id = transaction_id;
         this.amount = amount;
         this.date = date;
         this.type = type;
+        this.Balance_after =Balance_after;
+    }
+
+    public double getBalance_after() {
+        return Balance_after;
+    }
+
+    public void setBalance_after(double balance_after) {
+        Balance_after = balance_after;
     }
 
     public int getTransaction_id() {

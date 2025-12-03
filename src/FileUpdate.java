@@ -7,6 +7,38 @@ import java.util.List;
 
 public class FileUpdate {
 
+    public static int findLineByAccountId(String filePath, int id) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+            String line;
+            int index = 0;
+
+            while ((line = reader.readLine()) != null) {
+                // Split the line by comma
+                String[] parts = line.split(",");
+
+                // First value is the ID
+                int currentId = Integer.parseInt(parts[0]);
+
+                if (currentId == id) {
+                    reader.close();
+                    return index;  // return the line number
+                }
+
+                index++;
+            }
+
+            reader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // If not found
+        return -1;
+    }
+
+
+
 
     public static void updateLine(String filePath, int lineNumber, String newContent) {
         try {

@@ -13,17 +13,27 @@ private int user_id ;
 private double balance;
 private String status;
 private String account_type;
+private int over_draft_count;
+
+    public int getOver_draft_count() {
+        return over_draft_count;
+    }
+
+    public void setOver_draft_count(int over_draft_count) {
+        this.over_draft_count = over_draft_count;
+    }
 
     public Account(){
 
     }
 
-    public Account(String account_number, int user_id, double balance, String status, String account_type) {
+    public Account(String account_number, int user_id, double balance, String status, String account_type,int over_draft_count) {
         this.account_number = account_number;
         this.user_id = user_id;
         this.balance = balance;
         this.status = status;
         this.account_type = account_type;
+        this.over_draft_count =over_draft_count;
     }
 
     public static void CreateSavingAccount(int user_id){
@@ -36,7 +46,7 @@ private String account_type;
            try {
                int id = HomePage.generateId("Accounts.txt");
                FileWriter Writer = new FileWriter("Accounts.txt",true);
-               Writer.write("\n"+id+","+user_id+",0,active,saving");
+               Writer.write("\n"+id+","+user_id+",0,active,saving,0");
                Writer.close();
            } catch (Exception e) {
                throw new RuntimeException(e);
@@ -60,7 +70,7 @@ private String account_type;
                 if(Integer.parseInt(line.split(",")[1])==user_id) {
 
                     String acc_deatails[]=line.split(",");
-                     a1 = new Account(acc_deatails[0],Integer.parseInt(acc_deatails[1]),Double.parseDouble(acc_deatails[2]),acc_deatails[3],acc_deatails[4]);
+                     a1 = new Account(acc_deatails[0],Integer.parseInt(acc_deatails[1]),Double.parseDouble(acc_deatails[2]),acc_deatails[3],acc_deatails[4],Integer.parseInt(acc_deatails[5]));
                      useraccounts.add(a1);
                 }
             }
@@ -75,7 +85,7 @@ private String account_type;
 
     @Override
     public String toString() {
-        return "Account number : "+account_number +" , Blance : "+balance +" ("+status+") : "+account_type+" Account";
+        return "Account number : "+account_number +" , Blance : "+balance +" ("+status+") : "+account_type+" Account "+over_draft_count;
     }
 
     public String getAccount_number() {

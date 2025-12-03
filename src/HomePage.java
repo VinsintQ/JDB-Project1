@@ -61,9 +61,6 @@ public class HomePage {
       System.out.println("Enter User Name : ");
       String user_name = kb.nextLine();
       do {
-
-
-
           found= findUser(user_name);
          if (found==null){
              System.out.println("Enter passwoord");
@@ -77,8 +74,9 @@ public class HomePage {
                  int id =generateId("Users.txt");
                  Writer.write("\n"+id+","+user_name+","+first_name+","+last_name+","+password+","+"false,"+"0,"+"C");
                  Writer.close();
+                int acc_id = generateId("Accounts.txt");
                  FileWriter AccWriter = new FileWriter("Accounts.txt",true);
-                 AccWriter.write("\nAbc1234Ba,"+id+",0,active,checking");
+                 AccWriter.write("\n"+acc_id+","+id+",0,active,checking");
                  AccWriter.close();
              } catch (Exception e) {
                  throw new RuntimeException(e);
@@ -101,7 +99,7 @@ public class HomePage {
         BufferedReader Reader = new BufferedReader(new FileReader("Users.txt"));
 
           while ((line = Reader.readLine()) != null) {
-              if(line.split(",")[1].equals(user_name)) {
+              if(line.split(",")[1].equals(user_name)){
                   return line;
               }
           }
