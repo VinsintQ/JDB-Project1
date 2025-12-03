@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Scanner;
-
+import java.util.Base64;
 
 public class HomePage {
 
@@ -45,7 +45,9 @@ public class HomePage {
   }
 
   public static boolean checkPass(String password,String userInput){
-           if (password.equals(userInput)){
+
+      String decrypted = new String(Base64.getDecoder().decode(password));
+           if (decrypted.equals(userInput)){
                return true;
            }
            return false;
@@ -65,6 +67,7 @@ public class HomePage {
          if (found==null){
              System.out.println("Enter passwoord");
              password = kb.nextLine();
+             String encrypted_password = Base64.getEncoder().encodeToString(password.getBytes());
              System.out.println("Enter first name : ");
               first_name = kb.nextLine();
              System.out.println("Enter last name");
@@ -72,11 +75,11 @@ public class HomePage {
              try {
                  FileWriter Writer = new FileWriter("Users.txt",true);
                  int id =generateId("Users.txt");
-                 Writer.write("\n"+id+","+user_name+","+first_name+","+last_name+","+password+","+"false,"+"0,"+"C");
+                 Writer.write("\n"+id+","+user_name+","+first_name+","+last_name+","+encrypted_password+","+"false,"+"0,"+"C");
                  Writer.close();
                 int acc_id = generateId("Accounts.txt");
                  FileWriter AccWriter = new FileWriter("Accounts.txt",true);
-                 AccWriter.write("\n"+acc_id+","+id+",0,active,checking");
+                 AccWriter.write("\n"+acc_id+","+id+",0,active,checking,0");
                  AccWriter.close();
              } catch (Exception e) {
                  throw new RuntimeException(e);

@@ -1,2 +1,1 @@
-1000,mueen,mueen,ali,123123,false,0,C
-1001,kaml,lona,bona,123123,false,0,C
+1000,mueen,mueen,ali,MTIz,false,0,C
