@@ -20,10 +20,7 @@ public class HomePage {
       String user_name = kb.nextLine();
 
       do {
-
           found= findUser(user_name);
-
-
          if (found!=null){
 
              System.out.println("Enter Password");

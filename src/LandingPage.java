@@ -19,8 +19,8 @@ public class LandingPage {
             System.out.println("3 - Create Saving Account");
             System.out.println("4 - Withdraw");
             System.out.println("5 - Deposit");
-            System.out.println("4 - Transfer");
-            System.out.println("5 - Log out ");
+            System.out.println("6 - Transfer");
+            System.out.println("7 - Log out ");
             input= kb.nextLine();
 
             if (input.equals("1")){
@@ -36,9 +36,12 @@ public class LandingPage {
 
             }else if (input.equals("3")){
                 Account.CreateSavingAccount(c1.getId());
+            }else if (input.equals("4")){
+
+                Withdraw.WithDrawmoney(c1.getId());
             }
 
-        }while (!input.equals("5"));
+        }while (!input.equals("7"));
         System.exit(0);
     }
 
