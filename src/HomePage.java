@@ -11,6 +11,7 @@ public class HomePage {
   public static   boolean logged_in = false;
   public static String input ;
   public static Customer customer;
+  public static int faild_attempt;
 
   public static boolean LogIn(){
       Scanner kb = new Scanner(System.in);
@@ -26,7 +27,18 @@ public class HomePage {
              System.out.println("Enter Password");
              String password = kb.nextLine();
              while (!checkPass(found.split(",")[4],password)){
-                 System.out.println("Incorrect Password ,try Again");
+                 faild_attempt++;
+                 System.out.println("");
+                 System.out.print("Incorrect Password ,try Again");
+                 if (faild_attempt>=3){
+                     System.out.println(" After 60 seconds");
+                     try {
+                         Thread.sleep(60000);
+                     } catch (InterruptedException e) {
+                         e.printStackTrace();
+                     }
+                 }
+                 System.out.println("you can try Again now");
                  password = kb.nextLine();
              }
              System.out.println("Welcome "+found.split(",")[1]);
