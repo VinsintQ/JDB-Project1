@@ -159,6 +159,9 @@ public class HomePage {
             String line;
 
             while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
                 String[] parts = line.split(",");
                 int id = Integer.parseInt(parts[0]);
                 if (id > maxId) {

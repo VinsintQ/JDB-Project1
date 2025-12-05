@@ -50,17 +50,66 @@ public class LandingPage {
                 Boolean hasAccount = false;
 
                 do {
-                    System.out.println("to Which account you want to deposit(CHK | SAV)");
-                    input = kb.nextLine();
+
+                        System.out.println("to Which account you want to deposit(enter account Id)");
+                        input = kb.nextLine();
 
                     for (Account acc : useraccounts) {
-                        if (input.equals(acc.getAccount_type())) {
+                        if (input.equals(acc.getAccount_number())) {
                             System.out.println("enter amount :");
                             String amount = kb.nextLine();
                             Deposit.Depositmoney(acc, Double.parseDouble(amount));
                             hasAccount = true;
                         }
                     }
+                }
+                while(!hasAccount);
+
+
+
+            }else if (input.equals("6")){
+                for (Account acc :useraccounts){
+                    System.out.println(acc.toString());
+                }
+                Boolean hasAccount = false;
+                System.out.println("enter account number you want to transfer from :");
+                input = kb.nextLine();
+                do {
+
+
+                    for (Account acc : useraccounts) {
+
+                        if (input.equals(acc.getAccount_number())&&acc.getStatus().equals("Active")) {
+                            System.out.println("enter amount :");
+                            String amount = kb.nextLine();
+                            if (acc.getBalance()>=0||(acc.getBalance()<0 &&Double.parseDouble(amount)<=100)){
+                                System.out.println("enter receiver Account number :");
+                                input = kb.nextLine();
+                                Transfer.TransferMoney(acc,Double.parseDouble(amount),input);
+                            }else if (acc.getBalance()<0 &&Double.parseDouble(amount) >100){
+                                do {
+                                    System.out.println("u cant Transfer more than 100, enter amount again :");
+                                    amount = kb.nextLine();
+                                    if (Double.parseDouble(amount)<101) {
+                                        System.out.println("enter receiver Account number :");
+                                        input = kb.nextLine();
+                                        Transfer.TransferMoney(acc, Double.parseDouble(amount), input);
+                                        break;
+                                    }
+                                }while (Double.parseDouble(amount)>100);
+
+                            }
+
+
+                            hasAccount = true;
+                            break;
+                        }
+                    }
+                    if (!hasAccount) {
+                        System.out.println("enter again ,either your account locked or you entered wrong number :");
+                        input = kb.nextLine();
+                    }
+
                 }
                 while(!hasAccount);
 

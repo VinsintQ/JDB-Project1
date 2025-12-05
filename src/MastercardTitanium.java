@@ -1,33 +1,26 @@
-public class MastercardTitanium extends DebitCard{
+public class MastercardTitanium implements DebitCard{
 
 
-    public MastercardTitanium(String accountId, String cardNumber, String expiryDate, String cvv, String mastercardTypeId, String issuedDate, String status) {
-
-        super(accountId, cardNumber, expiryDate, cvv, mastercardTypeId, issuedDate, status);
-    }
 
     @Override
-    public double getWithdrawLimitPerDay() {
+    public double WithdrawLimitPerDay() {
         return 10000;
     }
 
     @Override
-    public double getTransferLimitPerDay() {
+    public double TransferLimitPerDay() {
         return 20000;
     }
 
     @Override
-    public double getTransferOwnAccountLimitPerDay() {
+    public double TransferLimitPerDayOwnAccount() {
         return 40000;
     }
 
     @Override
-    public double getDepositLimitPerDay() {
+    public double DepositLimitPerDay() {
         return 100000;
     }
 
-    @Override
-    public double getDepositOwnAccountLimitPerDay() {
-        return 200000;
-    }
+
 }

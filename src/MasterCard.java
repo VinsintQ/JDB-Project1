@@ -1,36 +1,29 @@
-public class MasterCard extends DebitCard{
+public class MasterCard implements DebitCard{
 
 
 
-
-    public MasterCard(String accountId, String cardNumber, String expiryDate, String cvv, String mastercardTypeId, String issuedDate, String status) {
-        super(accountId, cardNumber, expiryDate, cvv, mastercardTypeId, issuedDate, status);
-    }
 
     @Override
-    public double getWithdrawLimitPerDay() {
+    public double WithdrawLimitPerDay() {
         return 5000;
     }
 
     @Override
-    public double getTransferLimitPerDay() {
+    public double TransferLimitPerDay() {
         return 10000;
     }
 
     @Override
-    public double getTransferOwnAccountLimitPerDay() {
+    public double TransferLimitPerDayOwnAccount() {
         return 20000;
     }
 
     @Override
-    public double getDepositLimitPerDay() {
+    public double DepositLimitPerDay() {
         return 100000;
     }
 
-    @Override
-    public double getDepositOwnAccountLimitPerDay() {
-        return 200000;
-    }
+
 
 
 }

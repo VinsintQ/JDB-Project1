@@ -6,35 +6,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileUpdate {
-
     public static int findLineByAccountId(String filePath, int id) {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+
             String line;
-            int index = 0;
+            int index = 0; // 0-based line index
 
             while ((line = reader.readLine()) != null) {
-                // Split the line by comma
+
+                if (line.trim().isEmpty()) {
+                    index++;
+                    continue;
+                }
+
                 String[] parts = line.split(",");
 
-                // First value is the ID
-                int currentId = Integer.parseInt(parts[0]);
+                // Safety check
+                if (parts.length < 1) {
+                    index++;
+                    continue;
+                }
+
+                int currentId = Integer.parseInt(parts[0].trim());
 
                 if (currentId == id) {
-                    reader.close();
-                    return index;  // return the line number
+                    return index; // Found line
                 }
 
                 index++;
             }
-
-            reader.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        // If not found
-        return -1;
+        return -1; // Not found
     }
 
 

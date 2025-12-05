@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.Writer;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -66,7 +63,9 @@ private int over_draft_count;
         try {
             BufferedReader Reader = new BufferedReader(new FileReader("Accounts.txt"));
             while ((line = Reader.readLine()) != null) {
-
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
                 if(Integer.parseInt(line.split(",")[1])==user_id) {
 
                     String acc_deatails[]=line.split(",");
@@ -82,6 +81,33 @@ private int over_draft_count;
         return useraccounts;
     }
 
+
+    public static Account getAccount(String account_number){
+        String line;
+        Account a1 =null;
+        try {
+            BufferedReader Reader = new BufferedReader(new FileReader("Accounts.txt"));
+            while ((line = Reader.readLine()) != null) {
+
+
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
+
+                if(line.split(",")[0].equals(account_number)) {
+
+                    String acc_deatails[]=line.split(",");
+                    a1 = new Account(acc_deatails[0],Integer.parseInt(acc_deatails[1]),Double.parseDouble(acc_deatails[2]),acc_deatails[3],acc_deatails[4],Integer.parseInt(acc_deatails[5]));
+
+                }
+            }
+
+            Reader.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+       return a1;
+    }
 
     @Override
     public String toString() {

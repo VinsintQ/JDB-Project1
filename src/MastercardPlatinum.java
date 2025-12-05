@@ -1,32 +1,28 @@
-public class MastercardPlatinum extends DebitCard{
+public class MastercardPlatinum implements DebitCard{
 
 
-    public MastercardPlatinum(String accountId, String cardNumber, String expiryDate, String cvv, String mastercardTypeId, String issuedDate, String status) {
-        super(accountId, cardNumber, expiryDate, cvv, mastercardTypeId, issuedDate, status);
-    }
+
 
     @Override
-    public double getWithdrawLimitPerDay() {
+    public double WithdrawLimitPerDay() {
         return 20000;
     }
 
     @Override
-    public double getTransferLimitPerDay() {
+    public double TransferLimitPerDay() {
         return 40000;
     }
 
     @Override
-    public double getTransferOwnAccountLimitPerDay() {
+    public double TransferLimitPerDayOwnAccount() {
         return 80000;
     }
 
     @Override
-    public double getDepositLimitPerDay() {
+    public double DepositLimitPerDay() {
         return 100000;
     }
 
-    @Override
-    public double getDepositOwnAccountLimitPerDay() {
-        return 200000;
-    }
+
+
 }
