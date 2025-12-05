@@ -1,15 +1,19 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Scanner;
 
 public class Transaction {
 
 
      private int transaction_id;
      private double amount ;
-     private LocalDateTime date;
+     private String date;
      private String type;
      private double Balance_after;
 
-    public Transaction(int transaction_id, double amount, LocalDateTime date, String type,Double Balance_after) {
+    public Transaction(int transaction_id, double amount, String date, String type,Double Balance_after) {
         this.transaction_id = transaction_id;
         this.amount = amount;
         this.date = date;
@@ -25,6 +29,23 @@ public class Transaction {
         Balance_after = balance_after;
     }
 
+    public static void  ShowAllTransaction(int account_id){
+        String line;
+        try {
+            BufferedReader Reader = new BufferedReader(new FileReader("Customer-"+account_id+".txt"));
+            while ((line = Reader.readLine()) != null) {
+                if (line.isEmpty()){
+                    continue;
+                }
+                System.out.println(line);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        Scanner kb = new Scanner(System.in);
+        System.out.println("enter to go back ......");
+        String next = kb.nextLine();
+    }
     public int getTransaction_id() {
         return transaction_id;
     }
@@ -41,11 +62,11 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public LocalDateTime getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

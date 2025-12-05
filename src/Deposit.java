@@ -1,12 +1,13 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Deposit extends Transaction{
 
     private String Account_number;
-    public Deposit(int transaction_id, double amount, LocalDateTime date, String type, Double Balance_after,String Account_number) {
+    public Deposit(int transaction_id, double amount, String date, String type, Double Balance_after,String Account_number) {
         super(transaction_id, amount, date, type, Balance_after);
         this.Account_number = Account_number;
     }
@@ -32,7 +33,7 @@ public class Deposit extends Transaction{
           account.setOver_draft_count(0);
       }
       int id = HomePage.generateId("Customer-"+account.getUser_id()+".txt");
-      Deposit d1 = new Deposit(id,amount,LocalDateTime.now(),"Deposit",account.getBalance(),account.getAccount_number());
+      Deposit d1 = new Deposit(id,amount,LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),"Deposit",account.getBalance(),account.getAccount_number());
         try {
             BufferedWriter Writer = new BufferedWriter(new FileWriter("Customer-"+account.getUser_id()+".txt",true));
             Writer.write("\n" + d1.toString()+","+ account.getBalance());

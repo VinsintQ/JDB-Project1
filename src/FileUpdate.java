@@ -21,16 +21,10 @@ public class FileUpdate {
 
                 String[] parts = line.split(",");
 
-                // Safety check
-                if (parts.length < 1) {
-                    index++;
-                    continue;
-                }
-
                 int currentId = Integer.parseInt(parts[0].trim());
 
                 if (currentId == id) {
-                    return index; // Found line
+                    return index;
                 }
 
                 index++;

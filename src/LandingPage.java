@@ -38,7 +38,10 @@ public class LandingPage {
                 input = kb.nextLine();
 
 
-            }else if (input.equals("3")){
+            }else if (input.equals("2")){
+                Transaction.ShowAllTransaction(c1.getId());
+            }
+            else if (input.equals("3")){
                 Account.CreateSavingAccount(c1.getId());
             }else if (input.equals("4")){
 

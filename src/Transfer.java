@@ -1,6 +1,7 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Transfer extends Transaction {
@@ -8,7 +9,7 @@ public class Transfer extends Transaction {
     private String sender_account_id;
     private String recciever_id;
 
-    public Transfer(int transaction_id, double amount, LocalDateTime date, String type, Double Balance_after, String sender_account_id, String recciever_id) {
+    public Transfer(int transaction_id, double amount, String date, String type, Double Balance_after, String sender_account_id, String recciever_id) {
         super(transaction_id, amount, date, type, Balance_after);
         this.sender_account_id = sender_account_id;
         this.recciever_id = recciever_id;
@@ -39,7 +40,7 @@ public class Transfer extends Transaction {
                     account.setStatus("locked");
                 }
             }
-            Transfer Sender = new Transfer(id, amount, LocalDateTime.now(), "Transfer", (account.getBalance()), account.getAccount_number(), recciever_id);
+            Transfer Sender = new Transfer(id, amount, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), "Transfer", (account.getBalance()), account.getAccount_number(), recciever_id);
 
             try {
                 BufferedWriter Writer = new BufferedWriter(new FileWriter("Customer-" + account.getUser_id() + ".txt", true));
@@ -55,7 +56,7 @@ public class Transfer extends Transaction {
                 recciever_account.setOver_draft_count(0);
             }
             int id_receiver = HomePage.generateId("Customer-" + recciever_account.getUser_id() + ".txt");
-            Transfer Receiver = new Transfer(id_receiver, amount, LocalDateTime.now(), "Transfer", recciever_account.getBalance(), account.getAccount_number(), recciever_id);
+            Transfer Receiver = new Transfer(id_receiver, amount, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), "Transfer", recciever_account.getBalance(), account.getAccount_number(), recciever_id);
             try {
                 BufferedWriter Writer = new BufferedWriter(new FileWriter("Customer-" + recciever_account.getUser_id() + ".txt", true));
                 Writer.write("\n" + Receiver.toString());

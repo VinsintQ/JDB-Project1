@@ -33,11 +33,13 @@ public class HomePage {
                  if (faild_attempt>=3){
                      System.out.println(" After 60 seconds");
                      try {
-                         Thread.sleep(60000);
+                         Thread.sleep(10000);
+                         continue;
                      } catch (InterruptedException e) {
                          e.printStackTrace();
                      }
                  }
+
                  System.out.println("you can try Again now");
                  password = kb.nextLine();
              }
