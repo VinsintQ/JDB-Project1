@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
 
 public class Transfer extends Transaction {
@@ -90,6 +91,34 @@ public class Transfer extends Transaction {
                 if(line.split(",")[3].equals("Transfer")&&line.split(",")[4].equals(account_id)){
                     total+=Double.parseDouble(line.split(",")[1]);
                 }
+            }
+
+            Reader.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return total;
+    }
+    public static double CalcAccountTransferOwnAccount(String account_id, List<Account> own_account){
+        double total=0;
+        String line ;
+
+        try {
+            BufferedReader Reader = new BufferedReader(new FileReader("Customer-"+account_id+".txt"));
+            while ((line = Reader.readLine()) != null) {
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
+                String target=null;
+               for (Account a :own_account){
+                   if (!a.getAccount_number().equals(account_id)){
+                       target=a.getAccount_number();
+                   }
+               }
+                if(line.split(",")[3].equals("Transfer")&&line.split(",")[5].equals(target)){
+                    total+=Double.parseDouble(line.split(",")[1]);
+                }
+
             }
 
             Reader.close();
