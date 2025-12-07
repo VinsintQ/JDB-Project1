@@ -1,4 +1,4 @@
-1020,1000,37489.0,active,checking,0,MASTERCARD
+1020,1000,139489.0,active,checking,0,MASTERCARD
 
 1028,1005,0,active,checking,0,TITANIUM
 
@@ -7,4 +7,4 @@
 1031,1002,2000.0,Active,checking,0,MASTERCARD
 
 
-1032,1000,5396.0,Active,saving,0,TITANIUM
+1032,1000,194457.0,active,saving,0,TITANIUM

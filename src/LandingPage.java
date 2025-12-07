@@ -60,8 +60,25 @@ public class LandingPage {
 
                     for (Account acc : useraccounts) {
                         if (input.equals(acc.getAccount_number())) {
-                            System.out.println("enter amount :");
+                            double limit = Withdraw.createCard(acc.getCardType()).DepositLimitPerDay();
+                            double totalDeposit=   Deposit.CalcAccountDeposit(acc.getAccount_number());
+
+                            double remlimit =(limit-totalDeposit);
+                            System.out.println("enter amount :(your limit "+remlimit+")");
                             String amount = kb.nextLine();
+
+
+
+
+                            while (Double.parseDouble(amount)>remlimit){
+                                System.out.println("you exceeds the limit , remaining limit :"+remlimit);
+                                System.out.println("Enter amount : ,or press enter to go back");
+                                amount = kb.nextLine();
+                                if (input.isEmpty()){
+                                    return;
+                                }
+                            }
+                            System.out.println(remlimit);
                             Deposit.Depositmoney(acc, Double.parseDouble(amount));
                             hasAccount = true;
                         }

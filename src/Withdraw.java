@@ -94,12 +94,16 @@ public class Withdraw extends Transaction {
                         System.out.println("your account is locked pay the amount then it will be active......");
                         input = kb.nextLine();
                     } else {
-
-                        System.out.println("Enter amount :");
+                        double withdrawlimit = createCard(a.getCardType()).WithdrawLimitPerDay();
+                        double totalwithrawed=   CalcAccountWithdraw(a.getAccount_number());
+                        System.out.println("Enter amount : your limit ("+(withdrawlimit-totalwithrawed)+")");
                         input = kb.nextLine();
+                        if (input.isEmpty()){
 
-                       double withdrawlimit = createCard(a.getCardType()).WithdrawLimitPerDay();
-                       double totalwithrawed=   CalcAccountWithdraw(a.getAccount_number());
+                            WithDrawmoney(user_id);
+                            return;
+                        }
+
                         while (Double.parseDouble(input)>(withdrawlimit-totalwithrawed)){
                             System.out.println("you exceeds the limit ,remaining limit :"+(withdrawlimit-totalwithrawed));
                             System.out.println("Enter amount : ,or press enter to go back");
@@ -107,7 +111,7 @@ public class Withdraw extends Transaction {
                             if (input.isEmpty()){
 
                                 WithDrawmoney(user_id);
-                                break;
+                                return;
                             }
                         }
 
