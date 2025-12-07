@@ -23,7 +23,7 @@ public class MasterCard implements DebitCard{
         return 100000;
     }
 
-
+    public String getCardName() { return "MASTERCARD"; }
 
 
 }

@@ -23,6 +23,6 @@ public class MastercardPlatinum implements DebitCard{
         return 100000;
     }
 
-
+    public String getCardName() { return "PLATINUM"; }
 
 }

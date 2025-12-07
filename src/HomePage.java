@@ -86,6 +86,10 @@ public class HomePage {
               first_name = kb.nextLine();
              System.out.println("Enter last name");
              last_name = kb.nextLine();
+             DebitCard card = Account.ChooseCard();
+             while (card==null){
+                 card= Account.ChooseCard();
+             }
              try {
                  FileWriter Writer = new FileWriter("Users.txt",true);
                  int id =generateId("Users.txt");
@@ -93,7 +97,7 @@ public class HomePage {
                  Writer.close();
                 int acc_id = generateId("Accounts.txt");
                  FileWriter AccWriter = new FileWriter("Accounts.txt",true);
-                 AccWriter.write("\n"+acc_id+","+id+",0,active,checking,0");
+                 AccWriter.write("\n"+acc_id+","+id+",0,active,checking,0,"+card.getCardName());
                  AccWriter.close();
              } catch (Exception e) {
                  throw new RuntimeException(e);

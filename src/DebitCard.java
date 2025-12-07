@@ -4,5 +4,5 @@ public interface DebitCard {
     public double TransferLimitPerDay();
     public double TransferLimitPerDayOwnAccount();
     public double DepositLimitPerDay();
-
+    public String getCardName();
 }

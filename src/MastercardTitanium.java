@@ -23,4 +23,5 @@ public class MastercardTitanium implements DebitCard{
     }
 
 
+    public String getCardName() { return "TITANIUM"; }
 }

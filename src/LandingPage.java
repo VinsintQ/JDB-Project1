@@ -24,7 +24,7 @@ public class LandingPage {
             System.out.println("4 - Withdraw");
             System.out.println("5 - Deposit");
             System.out.println("6 - Transfer");
-            System.out.println("7 - Log out ");
+            System.out.println("7 - Exit ");
             input= kb.nextLine();
 
             if (input.equals("1")){
@@ -39,7 +39,8 @@ public class LandingPage {
 
 
             }else if (input.equals("2")){
-                Transaction.ShowAllTransaction(c1.getId());
+//                System.out.println(Transaction.TodayTransactions(c1.getId()));
+                System.out.println(Transaction.yesterdayTransactions(c1.getId()));
             }
             else if (input.equals("3")){
                 Account.CreateSavingAccount(c1.getId());
@@ -82,7 +83,7 @@ public class LandingPage {
 
                     for (Account acc : useraccounts) {
 
-                        if (input.equals(acc.getAccount_number())&&acc.getStatus().equals("Active")) {
+                        if (input.equals(acc.getAccount_number())&&acc.getStatus().equals("active")) {
                             System.out.println("enter amount :");
                             String amount = kb.nextLine();
                             if (acc.getBalance()>=0||(acc.getBalance()<0 &&Double.parseDouble(amount)<=100)){
