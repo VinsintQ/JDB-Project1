@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -52,7 +54,7 @@ public class Transfer extends Transaction {
 
             recciever_account.setBalance(recciever_account.getBalance() + amount);
             if (recciever_account.getBalance() >= 0) {
-                recciever_account.setStatus("Active");
+                recciever_account.setStatus("active");
                 recciever_account.setOver_draft_count(0);
             }
             int id_receiver = HomePage.generateId("Customer-" + recciever_account.getAccount_number() + ".txt");
@@ -75,6 +77,28 @@ public class Transfer extends Transaction {
             String input = kb.nextLine();
         }
     }
+    public static double CalcAccountTransfer(String account_id){
+        double total=0;
+        String line ;
+        try {
+            BufferedReader Reader = new BufferedReader(new FileReader("Customer-"+account_id+".txt"));
+            while ((line = Reader.readLine()) != null) {
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
+
+                if(line.split(",")[3].equals("Transfer")&&line.split(",")[4].equals(account_id)){
+                    total+=Double.parseDouble(line.split(",")[1]);
+                }
+            }
+
+            Reader.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return total;
+    }
+
 
     public String getSender_account_id() {
         return sender_account_id;

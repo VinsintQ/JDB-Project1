@@ -39,7 +39,7 @@ public class LandingPage {
 
 
             }else if (input.equals("2")){
-//                System.out.println(Transaction.TodayTransactions(c1.getId()));
+
                 System.out.println(Transaction.yesterdayTransactions(c1.getId()));
             }
             else if (input.equals("3")){
@@ -101,8 +101,25 @@ public class LandingPage {
                     for (Account acc : useraccounts) {
 
                         if (input.equals(acc.getAccount_number())&&acc.getStatus().equals("active")) {
-                            System.out.println("enter amount :");
+                            double Transferlimit =Withdraw.createCard(acc.getCardType()).TransferLimitPerDay();
+                            double totalTransfered= Transfer.CalcAccountTransfer(acc.getAccount_number());
+                            System.out.println("enter amount : remaining limit ("+(Transferlimit-totalTransfered)+")");
                             String amount = kb.nextLine();
+                            if (amount.isEmpty()){
+                                viewSeting();
+                                return;
+
+                            }
+                            while (Double.parseDouble(amount)>(Transferlimit+totalTransfered)){
+                                System.out.println("you exceeds the limit ,remaining limit :"+(Transferlimit+totalTransfered));
+                                System.out.println("Enter amount : ,or press enter to go back");
+                                amount = kb.nextLine();
+                                if (amount.isEmpty()){
+                                    viewSeting();
+                                    return;
+
+                                }
+                            }
                             if (acc.getBalance()>=0||(acc.getBalance()<0 &&Double.parseDouble(amount)<=100)){
                                 System.out.println("enter receiver Account number :");
                                 input = kb.nextLine();
