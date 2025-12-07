@@ -40,8 +40,18 @@ public class LandingPage {
 
 
             }else if (input.equals("2")){
-
-                System.out.println(Transaction.yesterdayTransactions(c1.getId()));
+                Scanner keyboard = new Scanner(System.in);
+                 for (Account a:useraccounts){
+                     System.out.println(a.toString());
+                 }
+                System.out.println("Enter account number:");
+                 String i = kb.nextLine();
+                for (Account a:useraccounts){
+                    if (a.getAccount_number().equals(i)){
+                        Transaction.ShowTransactionMenu(Integer.parseInt(i));
+                    }
+                }
+                
             }
             else if (input.equals("3")){
                 Account.CreateSavingAccount(c1.getId());

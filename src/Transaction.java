@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -50,7 +51,7 @@ public class Transaction {
         }
        return Transactions;
     }
-    public  static  List<String> TodayTransactions(int account_id){
+    public  static  void TodayTransactions(int account_id){
 
         List<String> today = ShowAllTransaction(account_id)
                 .stream()
@@ -59,10 +60,10 @@ public class Transaction {
 
 
 
-             return today;
+              today.forEach(t-> System.out.println(t));
 
     }
-    public  static  List<String> yesterdayTransactions(int account_id){
+    public  static  void yesterdayTransactions(int account_id){
 
         List<String> yesterday = ShowAllTransaction(account_id)
                 .stream()
@@ -71,18 +72,88 @@ public class Transaction {
 
 
 
-        return yesterday;
+         yesterday.forEach(t-> System.out.println(t));
 
     }
 
-//    public  static  List<String> lastWeekTransactions(int account_id){
-//
-//        List<LocalDate> last_week = ShowAllTransaction(account_id).stream()
-//                .filter(t->t.split(",")[2]).filter(t->t.);
-//
-//
-//        return last_week;
-//    }
+
+    public static void ShowTransactionMenu(int account_id){
+        Scanner kb = new Scanner(System.in);
+        String input;
+        System.out.println("1 -today Transaction");
+        System.out.println("2 -yesterday Transaction");
+        System.out.println("3 -last week Transaction");
+        System.out.println("4 -last 30 days Transaction");
+        input = kb.nextLine();
+        switch (input){
+            case "1":
+                TodayTransactions(account_id);
+                System.out.println("Press Enter to continue...");
+                try {
+                    System.in.read();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+            case "2":
+                yesterdayTransactions(account_id);
+                System.out.println("Press Enter to continue...");
+                try {
+                    System.in.read();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+            case "3":
+                lastWeekTransactions(account_id);
+                System.out.println("Press Enter to continue...");
+                try {
+                    System.in.read();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+            case "4":
+                last30days(account_id);
+                System.out.println("Press Enter to continue...");
+                try {
+                    System.in.read();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+        }
+
+    }
+    public static void lastWeekTransactions(int account_id) {
+
+        LocalDateTime oneWeekAgo = LocalDateTime.now().minusDays(7);
+
+         ShowAllTransaction(account_id)
+                .stream()
+                .filter(t -> {
+                    String[] parts = t.split(",");
+                    LocalDateTime dateTime = LocalDateTime.parse(parts[2]);
+                    return dateTime.isAfter(oneWeekAgo);
+                })
+                .collect(Collectors.toList()).forEach(s -> System.out.println(s));
+    }
+
+    public static void last30days(int account_id) {
+
+        LocalDateTime oneWeekAgo = LocalDateTime.now().minusDays(30);
+
+        ShowAllTransaction(account_id)
+                .stream()
+                .filter(t -> {
+                    String[] parts = t.split(",");
+                    LocalDateTime dateTime = LocalDateTime.parse(parts[2]);
+                    return dateTime.isAfter(oneWeekAgo);
+                })
+                .collect(Collectors.toList()).forEach(s -> System.out.println(s));
+    }
+
+
 
     public int getTransaction_id() {
         return transaction_id;
