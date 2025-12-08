@@ -3,6 +3,8 @@ import com.sun.jdi.Value;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.util.Base64;
 
@@ -12,51 +14,65 @@ public class HomePage {
   public static String input ;
   public static Customer customer;
   public static int faild_attempt;
+    public static boolean LogIn() {
 
-  public static boolean LogIn(){
-      Scanner kb = new Scanner(System.in);
-      String found ;
+        Scanner kb = new Scanner(System.in);
+        String found;
+        int failed_attempt = 0;
+        LocalDateTime lockedUntil = null;
 
-      System.out.println("Enter User Name");
-      String user_name = kb.nextLine();
+        System.out.println("Enter User Name");
+        String user_name = kb.nextLine();
 
-      do {
-          found= findUser(user_name);
-         if (found!=null){
+        do {
+            found = findUser(user_name);
 
-             System.out.println("Enter Password");
-             String password = kb.nextLine();
-             while (!checkPass(found.split(",")[4],password)){
-                 faild_attempt++;
-                 System.out.println("");
-                 System.out.print("Incorrect Password ,try Again");
-                 if (faild_attempt>=3){
-                     System.out.println(" After 60 seconds");
-                     try {
-                         Thread.sleep(10000);
-                         continue;
-                     } catch (InterruptedException e) {
-                         e.printStackTrace();
-                     }
-                 }
+            if (found != null) {
 
-                 System.out.println("you can try Again now");
-                 password = kb.nextLine();
-             }
-             System.out.println("Welcome "+found.split(",")[1]);
-              customer =  getCustomerInformation(found);
+                while (true) {
 
-             return true;
+                    // If locked
+                    if (lockedUntil != null && LocalDateTime.now().isBefore(lockedUntil)) {
 
-         }else {
-             System.out.println("Enter username again :");
-             user_name = kb.nextLine();
-         }
-      }while (found==null);
+                        long secondsLeft = Duration.between(LocalDateTime.now(), lockedUntil).getSeconds();
+                        try {
+                            Thread.sleep(60000); // wait 1 second before printing again
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
-      return false;
+                       
+                    }
 
-  }
+                    System.out.println("Enter Password");
+                    String password = kb.nextLine();
+
+                    if (checkPass(found.split(",")[4], password)) {
+                        System.out.println("Welcome " + found.split(",")[1]);
+                        customer = getCustomerInformation(found);
+                        return true;
+                    }
+
+                    failed_attempt++;
+                    System.out.println("Incorrect Password, try Again");
+
+                    if (failed_attempt == 3) {
+                        lockedUntil = LocalDateTime.now().plusSeconds(10);
+                        failed_attempt = 0;
+                        System.out.println("Locked for 10 seconds...");
+                    }
+                }
+
+            } else {
+                System.out.println("Enter username again :");
+                user_name = kb.nextLine();
+            }
+
+        } while (found == null);
+
+        return false;
+    }
+
 
   public static boolean checkPass(String password,String userInput){
 
