@@ -78,8 +78,8 @@ public class Deposit extends Transaction{
         String updatedline = account.getAccount_number()+","+account.getUser_id()+","+account.getBalance()+","+account.getStatus()+","+account.getAccount_type()+","+account.getOver_draft_count()+","+account.getCardType();
         FileUpdate.updateLine("Accounts.txt",linetoUpdate, updatedline);
         System.out.println("Deposit done new balance is "+account.getBalance()+"  enter to go back ....");
-        Scanner kb = new Scanner(System.in);
-       String input= kb.nextLine();
+
+
 
     }
 }
