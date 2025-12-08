@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -32,9 +33,14 @@ public class Deposit extends Transaction{
                     continue;
                 }
 
-                if(line.split(",")[3].equals("Deposit")) {
-                    total+=Double.parseDouble(line.split(",")[1]);
+                LocalDate today = LocalDate.now();
 
+                if (line.split(",")[3].equals("Deposit")) {
+                    LocalDate transactionDate = LocalDateTime.parse(line.split(",")[2]).toLocalDate();
+
+                    if (transactionDate.equals(today)) {
+                        total += Double.parseDouble(line.split(",")[1]);
+                    }
                 }
             }
 

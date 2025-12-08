@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -78,7 +79,7 @@ public class Transfer extends Transaction {
             String input = kb.nextLine();
         }
     }
-    public static double CalcAccountTransfer(String account_id){
+    public static double CalcAccountTransfer(String account_id, List<Account> own_account){
         double total=0;
         String line ;
         try {
@@ -88,8 +89,22 @@ public class Transfer extends Transaction {
                     continue;
                 }
 
-                if(line.split(",")[3].equals("Transfer")&&line.split(",")[4].equals(account_id)){
-                    total+=Double.parseDouble(line.split(",")[1]);
+                LocalDate today = LocalDate.now();
+                String[] parts = line.split(",");
+
+                boolean isTransfer = parts[3].equals("Transfer");
+
+                boolean isSameAccount = parts[4].equals(String.valueOf(account_id));
+                boolean OwnAccount =false;
+                for (Account a :own_account){
+                     OwnAccount = parts[5].equals(a.getAccount_number());
+                }
+
+                LocalDate transactionDate = LocalDateTime.parse(parts[2]).toLocalDate();
+                boolean isToday = transactionDate.equals(today);
+
+                if (isTransfer && isSameAccount && isToday&&!OwnAccount) {
+                    total += Double.parseDouble(parts[1]);
                 }
             }
 
@@ -115,9 +130,18 @@ public class Transfer extends Transaction {
                        target=a.getAccount_number();
                    }
                }
-                if(line.split(",")[3].equals("Transfer")&&line.split(",")[5].equals(target)){
-                    total+=Double.parseDouble(line.split(",")[1]);
+                String[] parts = line.split(",");
+
+                boolean isTransfer = parts[3].equals("Transfer");
+                boolean isSameTarget = parts[5].equals(String.valueOf(target));
+
+                LocalDate transactionDate = LocalDateTime.parse(parts[2]).toLocalDate();
+                boolean isToday = transactionDate.equals(LocalDate.now());
+
+                if (isTransfer && isSameTarget && isToday) {
+                    total += Double.parseDouble(parts[1]);
                 }
+
 
             }
 

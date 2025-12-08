@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
@@ -31,9 +32,14 @@ public class Withdraw extends Transaction {
                     continue;
                 }
 
-                if(line.split(",")[3].equals("Withdraw")) {
-                  total+=Double.parseDouble(line.split(",")[1]);
+                LocalDate today = LocalDate.now();
 
+                if (line.split(",")[3].equals("Withdraw")) {
+                    LocalDate transactionDate = LocalDateTime.parse(line.split(",")[2]).toLocalDate();
+
+                    if (transactionDate.equals(today)) {
+                        total += Double.parseDouble(line.split(",")[1]);
+                    }
                 }
             }
 

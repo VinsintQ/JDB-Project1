@@ -77,7 +77,9 @@ public class LandingPage {
                             double remlimit =(limit-totalDeposit);
                             System.out.println("enter amount :(your limit "+remlimit+")");
                             String amount = kb.nextLine();
-
+                            if (amount.isEmpty()){
+                                viewSeting();
+                            }
 
 
 
@@ -86,7 +88,7 @@ public class LandingPage {
                                 System.out.println("Enter amount : ,or press enter to go back");
                                 amount = kb.nextLine();
                                 if (input.isEmpty()){
-                                    return;
+                                  viewSeting();
                                 }
                             }
                             System.out.println(remlimit);
@@ -200,7 +202,7 @@ public class LandingPage {
 
                         if (input.equals(acc.getAccount_number())&&acc.getStatus().equals("active")) {
                             double Transferlimit =Withdraw.createCard(acc.getCardType()).TransferLimitPerDay();
-                            double totalTransfered= Transfer.CalcAccountTransfer(acc.getAccount_number());
+                            double totalTransfered= Transfer.CalcAccountTransfer(acc.getAccount_number(),useraccounts);
                             System.out.println("enter amount : remaining limit ("+(Transferlimit-totalTransfered)+")");
                             String amount = kb.nextLine();
                             if (amount.isEmpty()){
