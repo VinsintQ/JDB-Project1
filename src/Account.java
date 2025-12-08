@@ -28,6 +28,7 @@ private String cardType;
 
 
 
+
     public int getOver_draft_count() {
         return over_draft_count;
     }
@@ -48,6 +49,7 @@ private String cardType;
         this.account_type = account_type;
         this.over_draft_count =over_draft_count;
         this.cardType=cardType;
+        FileUpdate.createFileIfNotExist("Customer-"+account_number+".txt");
     }
 
 

@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +32,19 @@ public class FileUpdate {
 
         return -1; // Not found
     }
+    public static void createFileIfNotExist(String filePath) {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            try {
+                boolean created = file.createNewFile();
+            } catch (IOException e) {
+                System.out.println("An error occurred while creating the file.");
+                e.printStackTrace();
+            }
+        } else {
 
+        }
+    }
 
 
 
