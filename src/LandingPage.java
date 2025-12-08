@@ -87,11 +87,11 @@ public class LandingPage {
                                 System.out.println("you exceeds the limit , remaining limit :"+remlimit);
                                 System.out.println("Enter amount : ,or press enter to go back");
                                 amount = kb.nextLine();
-                                if (input.isEmpty()){
+                                if (amount.isEmpty()){
                                   viewSeting();
                                 }
                             }
-                            System.out.println(remlimit);
+
                             Deposit.Depositmoney(acc, Double.parseDouble(amount));
                             hasAccount = true;
                         }
@@ -133,6 +133,10 @@ public class LandingPage {
                                 System.out.println("enter receiver Account number :");
                                 input = kb.nextLine();
                                 boolean match = false;
+                                if (input.isEmpty()){
+                                    viewSeting();
+                                    break;
+                                }
                                 for(Account a:useraccounts){
                                     if (input.equals(a.getAccount_number())){
                                         match=true;
@@ -197,6 +201,10 @@ public class LandingPage {
                 Boolean hasAccount = false;
                 System.out.println("enter account number you want to transfer from :");
                 input = kb.nextLine();
+                if (input.isEmpty()){
+                    viewSeting();
+                    break;
+                }
                 do {
                     for (Account acc : useraccounts) {
 
