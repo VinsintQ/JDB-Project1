@@ -25,7 +25,8 @@ public class LandingPage {
             System.out.println("5 - Deposit");
             System.out.println("6 - Transfer to own account");
             System.out.println("7 - Transfer");
-            System.out.println("8 - Exit ");
+            System.out.println("8 - Account Statement");
+            System.out.println("9 - Exit ");
             input= kb.nextLine();
 
             if (input.equals("1")){
@@ -260,9 +261,27 @@ public class LandingPage {
 
 
 
+            }else if(input.equals("8")){
+
+                for (Account acc :useraccounts){
+                    System.out.println(acc.toString());
+                }
+                Boolean hasAccount = false;
+                System.out.println("enter account number you want to show for :");
+                Scanner keyboard = new Scanner(System.in);
+                String in = keyboard.nextLine();
+                for (Account acc :useraccounts){
+                    if (acc.getAccount_number().equals(in)){
+                        Account.AccountStatement(in);
+                    };
+
+                }
+
+
+
             }
 
-        }while (!input.equals("8"));
+        }while (!input.equals("9"));
         System.exit(0);
     }
 

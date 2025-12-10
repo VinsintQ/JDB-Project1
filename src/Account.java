@@ -52,7 +52,15 @@ private String cardType;
         FileUpdate.createFileIfNotExist("Customer-"+account_number+".txt");
     }
 
+   public static void AccountStatement(String account_number){
+        Scanner kb = new Scanner(System.in);
+      Account a1 =  getAccount(account_number);
+      System.out.println("account number : "+a1.account_number+"   Balance   :"+a1.getBalance());
+     Transaction.ShowAllTransaction(Integer.parseInt(account_number)).forEach(t-> System.out.println(t));
+       System.out.println("Enter to go back");
+       String i = kb.nextLine();
 
+   }
 
     public static DebitCard ChooseCard(){
         Scanner kb = new Scanner(System.in);
