@@ -8,20 +8,19 @@ public class User {
     private String hashedPassword;
     private char user_Role;
     private int user_id ;
-    private double balance ;
     private List<Account> accounts;
 
 
 
 
 
-    public User(String user_Name, String first_Name, String last_Name, String hashedPassword, double balance, int id, char user_Role) {
+    public User(String user_Name, String first_Name, String last_Name, String hashedPassword, int id, char user_Role) {
         this.user_Name = user_Name;
         this.first_Name = first_Name;
         this.last_Name = last_Name;
         this.hashedPassword = hashedPassword;
 
-        this.balance = balance;
+
         this.user_id = id;
         this.user_Role = user_Role;
     }
@@ -67,13 +66,6 @@ public class User {
         this.user_Role = user_Role;
     }
 
-    public double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
 
     public int getId() {
         return user_id;

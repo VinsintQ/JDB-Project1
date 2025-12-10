@@ -109,7 +109,7 @@ public class HomePage {
              try {
                  FileWriter Writer = new FileWriter("Users.txt",true);
                  int id =generateId("Users.txt");
-                 Writer.write("\n"+id+","+user_name+","+first_name+","+last_name+","+encrypted_password+","+"false,"+"0,"+"C");
+                 Writer.write("\n"+id+","+user_name+","+first_name+","+last_name+","+encrypted_password+","+"false,"+"C");
                  Writer.close();
                 int acc_id = generateId("Accounts.txt");
                  FileWriter AccWriter = new FileWriter("Accounts.txt",true);
@@ -118,7 +118,7 @@ public class HomePage {
              } catch (Exception e) {
                  throw new RuntimeException(e);
              }
-             System.out.println("your account has been created , and will be reviewed in 24h");
+             System.out.println("your account has been created");
 
              break;
          }else {
@@ -151,7 +151,7 @@ public class HomePage {
    public static Customer getCustomerInformation(String userInfo){
 
         String userData[]=userInfo.split(",");
-        Customer c1 = new Customer(Integer.parseInt(userData[0]),userData[1],userData[2],userData[3],userData[4],Boolean.parseBoolean(userData[5]),Double.parseDouble(userData[6]),userData[7].charAt(0));
+        Customer c1 = new Customer(Integer.parseInt(userData[0]),userData[1],userData[2],userData[3],userData[4],Boolean.parseBoolean(userData[5]),userData[6].charAt(0));
     return c1;
 
    }
@@ -163,7 +163,7 @@ public class HomePage {
            System.out.println("1-LogIn");
            System.out.println("2-SignUp");
            input = kb.nextLine().toLowerCase();
-           if (input.equals("login")){
+           if (input.equals("login")||input.equals("1")){
              if (LogIn()){
                  logged_in =true;
                  LandingPage l1 =  new LandingPage(customer);
@@ -173,7 +173,7 @@ public class HomePage {
 
 
 
-           }else if (input.equals("signup")){
+           }else if (input.equals("signup")||input.equals("2")){
                Register();
            }
 
