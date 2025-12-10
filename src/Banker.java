@@ -1,8 +1,18 @@
 public class Banker extends User{
 
 
+    private boolean IsActive;
+    public Banker(int user_id,String user_Name, String first_Name, String last_Name, String hashedPassword,boolean isActive,  char user_Role) {
+        super(user_Name, first_Name, last_Name, hashedPassword, user_id, user_Role);
+        this.IsActive=isActive;
+    }
+    public boolean isActive() {
 
-    public Banker(String user_Name, String first_Name, String last_Name, String hashedPassword, String email, int id, char user_Role) {
-        super(user_Name, first_Name, last_Name, hashedPassword, id, user_Role);
+        return IsActive;
+    }
+
+    public void setActive(boolean active) {
+
+        IsActive = active;
     }
 }

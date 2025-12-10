@@ -23,11 +23,18 @@ public class Deposit extends Transaction{
         Account_number = account_number;
     }
 
-    public static double CalcAccountDeposit(String account_id){
+    public static double CalcAccountDeposit(String account_id,User user){
         double total=0;
         String line ;
         try {
-            BufferedReader Reader = new BufferedReader(new FileReader("Customer-"+account_id+".txt"));
+            BufferedReader Reader;
+            String userRole =User.getUser(String.valueOf(user.getId())).split(",")[6];
+            if (userRole.equals("C")){
+                 Reader = new BufferedReader(new FileReader("Customer-"+account_id+".txt"));
+            }else {
+                 Reader = new BufferedReader(new FileReader("Banker-"+account_id+".txt"));
+            }
+
             while ((line = Reader.readLine()) != null) {
                 if (line.trim().isEmpty()) {
                     continue;
@@ -64,10 +71,23 @@ public class Deposit extends Transaction{
           account.setStatus("active");
           account.setOver_draft_count(0);
       }
-      int id = HomePage.generateId("Customer-"+account.getAccount_number()+".txt");
+        int id ;
+        String userRole =User.getUser(String.valueOf(account.getUser_id())).split(",")[6];
+        if (userRole.equals("C")){
+             id = HomePage.generateId("Customer-"+account.getAccount_number()+".txt");
+        }else {
+             id = HomePage.generateId("Banker-"+account.getAccount_number()+".txt");
+        }
+
       Deposit d1 = new Deposit(id,amount,LocalDateTime.now(),"Deposit",account.getBalance(),account.getAccount_number());
         try {
-            BufferedWriter Writer = new BufferedWriter(new FileWriter("Customer-"+account.getAccount_number()+".txt",true));
+            BufferedWriter Writer;
+            if (userRole.equals("C")){
+                 Writer = new BufferedWriter(new FileWriter("Customer-"+account.getAccount_number()+".txt",true));
+            }else {
+                 Writer = new BufferedWriter(new FileWriter("Banker-"+account.getAccount_number()+".txt",true));
+            }
+
             Writer.write("\n" + d1.toString()+","+ account.getBalance());
             Writer.close();
         } catch (Exception e) {

@@ -22,11 +22,19 @@ public class Withdraw extends Transaction {
         return account_number;
     }
 
-    public static double CalcAccountWithdraw(String account_id){
+    public static double CalcAccountWithdraw(String account_id,int userid){
         double total=0;
         String line ;
         try {
-            BufferedReader Reader = new BufferedReader(new FileReader("Customer-"+account_id+".txt"));
+
+
+            BufferedReader Reader;
+            String userRole =User.getUser(String.valueOf(userid)).split(",")[6];
+            if (userRole.equals("C")){
+                Reader = new BufferedReader(new FileReader("Customer-"+account_id+".txt"));
+            }else {
+                Reader = new BufferedReader(new FileReader("Banker-"+account_id+".txt"));
+            }
                         while ((line = Reader.readLine()) != null) {
                 if (line.trim().isEmpty()) {
                     continue;
@@ -101,7 +109,7 @@ public class Withdraw extends Transaction {
                         input = kb.nextLine();
                     } else {
                         double withdrawlimit = createCard(a.getCardType()).WithdrawLimitPerDay();
-                        double totalwithrawed=   CalcAccountWithdraw(a.getAccount_number());
+                        double totalwithrawed=   CalcAccountWithdraw(a.getAccount_number(),a.getUser_id());
                         System.out.println("Enter amount : your limit ("+(withdrawlimit-totalwithrawed)+")");
                         input = kb.nextLine();
                         if (input.isEmpty()){
@@ -136,10 +144,22 @@ public class Withdraw extends Transaction {
                                 }
                             }
 
-                            int id = HomePage.generateId("Customer-"+a.getAccount_number()+".txt");
+                            int id ;
+                            String userRole =User.getUser(String.valueOf(user_id)).split(",")[6];
+
+                            if (userRole.equals("C")){
+                                id = HomePage.generateId("Customer-"+a.getAccount_number()+".txt");
+                            }else {
+                                id = HomePage.generateId("Banker-"+a.getAccount_number()+".txt");
+                            }
                             Withdraw c1 = new Withdraw(id, Double.parseDouble(input), LocalDateTime.now(), "Withdraw", a.getAccount_number(), balance);
                             try {
-                                BufferedWriter Writer = new BufferedWriter(new FileWriter("Customer-" + a.getAccount_number() + ".txt", true));
+                                BufferedWriter Writer;
+                                if (userRole.equals("C")){
+                                    Writer = new BufferedWriter(new FileWriter("Customer-"+a.getAccount_number()+".txt",true));
+                                }else {
+                                    Writer = new BufferedWriter(new FileWriter("Banker-"+a.getAccount_number()+".txt",true));
+                                }
                                 Writer.write("\n" + c1.toString() + "," + balance);
                                 Writer.close();
                             } catch (Exception e) {

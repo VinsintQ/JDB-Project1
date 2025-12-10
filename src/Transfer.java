@@ -35,7 +35,15 @@ public class Transfer extends Transaction {
             String stop = kb.nextLine();
 
         }else {
-            int id = HomePage.generateId("Customer-" + account.getAccount_number()+ ".txt");
+
+
+            int id ;
+            String userRole =User.getUser(String.valueOf(account.getUser_id())).split(",")[6];
+            if (userRole.equals("C")){
+                id = HomePage.generateId("Customer-"+account.getAccount_number()+".txt");
+            }else {
+                id = HomePage.generateId("Banker-"+account.getAccount_number()+".txt");
+            }
             account.setBalance(account.getBalance() - amount);
             if (account.getBalance() < 0) {
                 account.setBalance(account.getBalance() - 35);
@@ -47,7 +55,15 @@ public class Transfer extends Transaction {
             Transfer Sender = new Transfer(id, amount, LocalDateTime.now(), "Transfer", (account.getBalance()), account.getAccount_number(), recciever_id);
 
             try {
-                BufferedWriter Writer = new BufferedWriter(new FileWriter("Customer-" + account.getAccount_number() + ".txt", true));
+
+                BufferedWriter Writer;
+
+                if (userRole.equals("C")){
+                    Writer = new BufferedWriter(new FileWriter("Customer-" + account.getAccount_number() + ".txt", true));
+                }else {
+                    Writer = new BufferedWriter(new FileWriter("Banker-" + account.getAccount_number() + ".txt", true));
+                }
+
                 Writer.write("\n" + Sender.toString());
                 Writer.close();
             } catch (Exception e) {
@@ -59,10 +75,24 @@ public class Transfer extends Transaction {
                 recciever_account.setStatus("active");
                 recciever_account.setOver_draft_count(0);
             }
-            int id_receiver = HomePage.generateId("Customer-" + recciever_account.getAccount_number() + ".txt");
+            String Receiver_userRole =User.getUser(String.valueOf(recciever_account.getUser_id())).split(",")[6];
+            int id_receiver;
+
+            if (Receiver_userRole.equals("C")){
+                id_receiver = HomePage.generateId("Customer-" + recciever_account.getAccount_number() + ".txt");
+            }else {
+                id_receiver = HomePage.generateId("Customer-" + recciever_account.getAccount_number() + ".txt");
+            }
+
             Transfer Receiver = new Transfer(id_receiver, amount, LocalDateTime.now(), "Transfer", recciever_account.getBalance(), account.getAccount_number(), recciever_id);
             try {
-                BufferedWriter Writer = new BufferedWriter(new FileWriter("Customer-" + recciever_account.getAccount_number() + ".txt", true));
+                BufferedWriter Writer;
+                if (userRole.equals("C")){
+                     Writer = new BufferedWriter(new FileWriter("Customer-" + recciever_account.getAccount_number() + ".txt", true));
+                }else {
+                    Writer = new BufferedWriter(new FileWriter("Banker-" + recciever_account.getAccount_number() + ".txt", true));
+                }
+
                 Writer.write("\n" + Receiver.toString());
                 Writer.close();
             } catch (Exception e) {
@@ -83,7 +113,15 @@ public class Transfer extends Transaction {
         double total=0;
         String line ;
         try {
-            BufferedReader Reader = new BufferedReader(new FileReader("Customer-"+account_id+".txt"));
+            BufferedReader Reader;
+            int id =Account.getAccount(account_id).getUser_id();
+            String userRole =User.getUser(String.valueOf(id)).split(",")[6];
+            if (userRole.equals("C")){
+                Reader = new BufferedReader(new FileReader("Customer-"+account_id+".txt"));
+            }else {
+                Reader = new BufferedReader(new FileReader("Banker-"+account_id+".txt"));
+            }
+
             while ((line = Reader.readLine()) != null) {
                 if (line.trim().isEmpty()) {
                     continue;
@@ -119,7 +157,15 @@ public class Transfer extends Transaction {
         String line ;
 
         try {
-            BufferedReader Reader = new BufferedReader(new FileReader("Customer-"+account_id+".txt"));
+            BufferedReader Reader;
+            int id =Account.getAccount(account_id).getUser_id();
+            String userRole =User.getUser(String.valueOf(id)).split(",")[6];
+            if (userRole.equals("C")){
+                Reader = new BufferedReader(new FileReader("Customer-"+account_id+".txt"));
+            }else {
+                Reader = new BufferedReader(new FileReader("Banker-"+account_id+".txt"));
+            }
+
             while ((line = Reader.readLine()) != null) {
                 if (line.trim().isEmpty()) {
                     continue;

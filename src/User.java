@@ -1,3 +1,5 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.List;
 
 public class User {
@@ -24,7 +26,23 @@ public class User {
         this.user_id = id;
         this.user_Role = user_Role;
     }
+  public static String getUser(String user_id){
+      String line;
+      try {
+          BufferedReader Reader = new BufferedReader(new FileReader("Users.txt"));
 
+          while ((line = Reader.readLine()) != null) {
+              if(line.split(",")[0].equals(user_id)){
+                  return line;
+              }
+          }
+
+          Reader.close();
+      } catch (Exception e) {
+          throw new RuntimeException(e);
+      }
+      return null;
+  }
 
     public String getUser_Name() {
         return user_Name;

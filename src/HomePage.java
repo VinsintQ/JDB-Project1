@@ -12,7 +12,7 @@ public class HomePage {
 
   public static   boolean logged_in = false;
   public static String input ;
-  public static Customer customer;
+  public static User user;
   public static int faild_attempt;
     public static boolean LogIn() {
 
@@ -49,7 +49,7 @@ public class HomePage {
 
                     if (checkPass(found.split(",")[4], password)) {
                         System.out.println("Welcome " + found.split(",")[1]);
-                        customer = getCustomerInformation(found);
+                        user = getUserInformation(found);
                         return true;
                     }
 
@@ -148,10 +148,14 @@ public class HomePage {
       return null;
   }
 
-   public static Customer getCustomerInformation(String userInfo){
-
+   public static User getUserInformation(String userInfo){
+         User c1;
         String userData[]=userInfo.split(",");
-        Customer c1 = new Customer(Integer.parseInt(userData[0]),userData[1],userData[2],userData[3],userData[4],Boolean.parseBoolean(userData[5]),userData[6].charAt(0));
+        if (userData[6].charAt(0)=='C') {
+             c1 = new Customer(Integer.parseInt(userData[0]), userData[1], userData[2], userData[3], userData[4], Boolean.parseBoolean(userData[5]), userData[6].charAt(0));
+        }else {
+             c1 = new Banker(Integer.parseInt(userData[0]), userData[1], userData[2], userData[3], userData[4], Boolean.parseBoolean(userData[5]), userData[6].charAt(0));
+        }
     return c1;
 
    }
@@ -166,7 +170,7 @@ public class HomePage {
            if (input.equals("login")||input.equals("1")){
              if (LogIn()){
                  logged_in =true;
-                 LandingPage l1 =  new LandingPage(customer);
+                 LandingPage l1 =  new LandingPage(user);
                  l1.viewSeting();
 
              }

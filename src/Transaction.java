@@ -39,7 +39,16 @@ public class Transaction {
         String line;
         List<String> Transactions= new ArrayList<>();
         try {
-            BufferedReader Reader = new BufferedReader(new FileReader("Customer-"+account_id+".txt"));
+
+            BufferedReader Reader;
+            int id =Account.getAccount(String.valueOf(account_id)).getUser_id();
+            String userRole =User.getUser(String.valueOf(id)).split(",")[6];
+            if (userRole.equals("C")){
+                Reader = new BufferedReader(new FileReader("Customer-"+account_id+".txt"));
+            }else {
+                Reader = new BufferedReader(new FileReader("Banker-"+account_id+".txt"));
+            }
+
             while ((line = Reader.readLine()) != null) {
                 if (line.isEmpty()){
                     continue;

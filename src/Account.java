@@ -49,8 +49,15 @@ private String cardType;
         this.account_type = account_type;
         this.over_draft_count =over_draft_count;
         this.cardType=cardType;
-        FileUpdate.createFileIfNotExist("Customer-"+account_number+".txt");
+        String userRole =User.getUser(String.valueOf(user_id)).split(",")[6];
+        if (userRole.equals("C")){
+            FileUpdate.createFileIfNotExist("Customer-"+account_number+".txt");
+        }else {
+            FileUpdate.createFileIfNotExist("Banker-"+account_number+".txt");
+        }
+
     }
+
 
    public static void AccountStatement(String account_number){
         Scanner kb = new Scanner(System.in);

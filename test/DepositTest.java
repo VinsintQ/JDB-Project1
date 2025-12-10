@@ -7,18 +7,30 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DepositTest {
 
     private final String testFile = "Customer-999.txt";
+    private User testUser;
 
     @BeforeEach
     void setup() throws Exception {
+
+        // Create test user (Customer)
+        testUser = new Customer(
+                11,             // user_id
+                "testuser",     // username
+                "Test",         // first name
+                "User",         // last name
+                "hashed123",    // password
+                true,           // isActive
+                'C'             // role
+        );
+
         // Create a fresh file for each test
         BufferedWriter writer = new BufferedWriter(new FileWriter(testFile));
-        writer.write(""); // empty file
+        writer.write("");
         writer.close();
     }
 
     @AfterEach
     void cleanup() {
-        // Delete temp file
         File f = new File(testFile);
         if (f.exists()) f.delete();
     }
@@ -32,27 +44,24 @@ public class DepositTest {
 
         BufferedWriter writer = new BufferedWriter(new FileWriter(testFile, true));
 
-        // A deposit today
+        // Deposit today
         writer.write("1,500," + LocalDateTime.now() + ",Deposit,999\n");
 
-        // A deposit NOT today (yesterday)
+        // Deposit yesterday (ignored)
         writer.write("2,600," + LocalDateTime.now().minusDays(1) + ",Deposit,999\n");
 
         writer.close();
 
-        double total = Deposit.CalcAccountDeposit("999");
+        double total = Deposit.CalcAccountDeposit("999", testUser);
 
-        // Should only count today's 500
         assertEquals(500, total);
     }
 
     @Test
     void testCalcAccountDeposit_NoDeposits() {
-        double total = Deposit.CalcAccountDeposit("999");
-
+        double total = Deposit.CalcAccountDeposit("999", testUser);
         assertEquals(0, total);
     }
-
 
     // ----------------------------------------------------------
     // TEST Depositmoney()
@@ -61,7 +70,6 @@ public class DepositTest {
     @Test
     void testDepositMoney() throws Exception {
 
-        // Mock account
         Account acc = new Account();
         acc.setAccount_number("999");
         acc.setBalance(1000);
@@ -71,13 +79,10 @@ public class DepositTest {
         acc.setOver_draft_count(0);
         acc.setCardType("MASTERCARD");
 
-        // Run deposit
         Deposit.Depositmoney(acc, 250);
 
-        // New balance must be 1250
         assertEquals(1250, acc.getBalance(), 0.0001);
 
-        // Check file content
         BufferedReader reader = new BufferedReader(new FileReader(testFile));
         String lastLine = "";
         String line;
@@ -87,10 +92,8 @@ public class DepositTest {
 
         reader.close();
 
-        // Last line should contain: id, amount, date, Deposit, 999, finalBalance
         assertTrue(lastLine.contains("Deposit"));
         assertTrue(lastLine.contains(",250.0,"));
         assertTrue(lastLine.endsWith(",1250.0"));
     }
-
 }
