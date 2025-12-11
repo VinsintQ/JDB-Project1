@@ -1,74 +1,76 @@
 import org.junit.jupiter.api.*;
 import java.io.*;
 import java.time.LocalDateTime;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DepositTest {
 
-    private final String testFile = "Customer-999.txt";
-    private User testUser;
+    private final String transactionFile = "Customer-999.txt";
+    private final String userFile = "Users.txt";  // assuming User.getUser reads from here
 
     @BeforeEach
     void setup() throws Exception {
 
-        // Create test user (Customer)
-        testUser = new Customer(
-                11,             // user_id
-                "testuser",     // username
-                "Test",         // first name
-                "User",         // last name
-                "hashed123",    // password
-                true,           // isActive
-                'C'             // role
-        );
+        BufferedWriter userWriter = new BufferedWriter(new FileWriter(userFile));
+        userWriter.write("11,testuser,email@example.com,x,x,x,C\n");
+        userWriter.close();
 
-        // Create a fresh file for each test
-        BufferedWriter writer = new BufferedWriter(new FileWriter(testFile));
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(transactionFile));
         writer.write("");
         writer.close();
     }
 
     @AfterEach
     void cleanup() {
-        File f = new File(testFile);
-        if (f.exists()) f.delete();
+        new File(transactionFile).delete();
+        new File(userFile).delete();
     }
-
-    // ----------------------------------------------------------
-    // TEST CalcAccountDeposit()
-    // ----------------------------------------------------------
 
     @Test
     void testCalcAccountDeposit_Today() throws Exception {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(transactionFile, true));
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter(testFile, true));
-
-        // Deposit today
         writer.write("1,500," + LocalDateTime.now() + ",Deposit,999\n");
-
-        // Deposit yesterday (ignored)
         writer.write("2,600," + LocalDateTime.now().minusDays(1) + ",Deposit,999\n");
 
         writer.close();
 
-        double total = Deposit.CalcAccountDeposit("999", testUser);
+
+        User dummyUser =new Customer(
+                11,
+                "testuser",
+                "Test",
+                "User",
+                "hashed123",
+                true,
+                'C'
+        );
+        double total = Deposit.CalcAccountDeposit("999", dummyUser);
 
         assertEquals(500, total);
     }
 
     @Test
     void testCalcAccountDeposit_NoDeposits() {
-        double total = Deposit.CalcAccountDeposit("999", testUser);
+        User dummyUser =new Customer(
+                11,
+                "testuser",
+                "Test",
+                "User",
+                "hashed123",
+                true,
+                'C'
+        );
+        double total = Deposit.CalcAccountDeposit("999", dummyUser);
         assertEquals(0, total);
     }
 
-    // ----------------------------------------------------------
-    // TEST Depositmoney()
-    // ----------------------------------------------------------
-
     @Test
-    void testDepositMoney() throws Exception {
+    void testDepositMoney() throws IOException {
+        // Prepare simulated input: just press Enter
+        String simulatedInput = "\n";
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
         Account acc = new Account();
         acc.setAccount_number("999");
@@ -83,13 +85,9 @@ public class DepositTest {
 
         assertEquals(1250, acc.getBalance(), 0.0001);
 
-        BufferedReader reader = new BufferedReader(new FileReader(testFile));
-        String lastLine = "";
-        String line;
-
-        while ((line = reader.readLine()) != null)
-            lastLine = line;
-
+        BufferedReader reader = new BufferedReader(new FileReader("Customer-999.txt"));
+        String lastLine = "", line;
+        while ((line = reader.readLine()) != null) lastLine = line;
         reader.close();
 
         assertTrue(lastLine.contains("Deposit"));
