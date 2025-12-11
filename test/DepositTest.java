@@ -1,34 +1,51 @@
 import org.junit.jupiter.api.*;
 import java.io.*;
 import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DepositTest {
 
     private final String transactionFile = "Customer-999.txt";
-    private final String userFile = "Users.txt";  // assuming User.getUser reads from here
+    private final String userFile = "Users.txt";  // your real user file — won't delete this!
+    private Customer testUser;
+    private final InputStream systemIn = System.in;
 
     @BeforeEach
-    void setup() throws Exception {
-
+    void setup() throws IOException {
+        // Create Users.txt with test user info (overwrite existing file)
         BufferedWriter userWriter = new BufferedWriter(new FileWriter(userFile));
-        userWriter.write("11,testuser,email@example.com,x,x,x,C\n");
+        userWriter.write("11,testuser,Test,User,hashed123,true,C\n");
         userWriter.close();
 
-
+        // Create empty transaction file
         BufferedWriter writer = new BufferedWriter(new FileWriter(transactionFile));
         writer.write("");
         writer.close();
+
+        // Create Customer instance
+        testUser = new Customer(
+                11,
+                "testuser",
+                "Test",
+                "User",
+                "hashed123",
+                true,
+                'C'
+        );
     }
 
     @AfterEach
     void cleanup() {
+        // Only delete the transaction test file, NOT the real Users.txt file
         new File(transactionFile).delete();
-        new File(userFile).delete();
+
+        // Restore original System.in
+        System.setIn(systemIn);
     }
 
     @Test
-    void testCalcAccountDeposit_Today() throws Exception {
+    void testCalcAccountDeposit_Today() throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(transactionFile, true));
 
         writer.write("1,500," + LocalDateTime.now() + ",Deposit,999\n");
@@ -36,39 +53,20 @@ public class DepositTest {
 
         writer.close();
 
-
-        User dummyUser =new Customer(
-                11,
-                "testuser",
-                "Test",
-                "User",
-                "hashed123",
-                true,
-                'C'
-        );
-        double total = Deposit.CalcAccountDeposit("999", dummyUser);
+        double total = Deposit.CalcAccountDeposit("999", testUser);
 
         assertEquals(500, total);
     }
 
     @Test
     void testCalcAccountDeposit_NoDeposits() {
-        User dummyUser =new Customer(
-                11,
-                "testuser",
-                "Test",
-                "User",
-                "hashed123",
-                true,
-                'C'
-        );
-        double total = Deposit.CalcAccountDeposit("999", dummyUser);
+        double total = Deposit.CalcAccountDeposit("999", testUser);
         assertEquals(0, total);
     }
 
     @Test
     void testDepositMoney() throws IOException {
-        // Prepare simulated input: just press Enter
+        // Simulate user pressing Enter (to avoid blocking on Scanner input)
         String simulatedInput = "\n";
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
@@ -85,7 +83,7 @@ public class DepositTest {
 
         assertEquals(1250, acc.getBalance(), 0.0001);
 
-        BufferedReader reader = new BufferedReader(new FileReader("Customer-999.txt"));
+        BufferedReader reader = new BufferedReader(new FileReader(transactionFile));
         String lastLine = "", line;
         while ((line = reader.readLine()) != null) lastLine = line;
         reader.close();
