@@ -16,4 +16,24 @@ User Stories :-
 
 7-As a customer, I want to be able to interact easily  with the System through a command-line interface.
 
-8-As a customer ,I Want to be able to filter transaction to specific period of time ,So that I can track my spending during that period .
+8-As a customer ,I Want to be able to filter transaction to  period of time ,So that I can track my spending during that period .
+
+
+
+
+# Technologies Used
+
+1- Java 17 — main programming language
+
+2- JUnit 5 — for unit testing
+
+3- File I/O (BufferedReader/Writer)
+
+4- Git & GitHub
+
+
+
+
+# ERD
+
+![Alt text](ERD.png)
