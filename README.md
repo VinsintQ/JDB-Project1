@@ -1,3 +1,7 @@
+note : running the test will delete the date from User.txt
+
+
+
 Project 1 : Banking with Java
 
 User Stories :-
@@ -37,3 +41,4 @@ User Stories :-
 # ERD
 
 ![Alt text](ERD.png)
+
