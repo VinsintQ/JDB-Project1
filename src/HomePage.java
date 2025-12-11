@@ -26,7 +26,10 @@ public class HomePage {
 
         do {
             found = findUser(user_name);
-
+            if (!CheckAccountActive(user_name)){
+                System.out.println("you account is not active");
+                return false;
+            }
             if (found != null) {
 
                 while (true) {
@@ -84,6 +87,24 @@ public class HomePage {
 
 
   }
+
+    public static boolean CheckAccountActive(String user_name){
+        String line;
+        try {
+            BufferedReader Reader = new BufferedReader(new FileReader("Users.txt"));
+
+            while ((line = Reader.readLine()) != null) {
+                if(line.split(",")[1].equals(user_name)&&line.split(",")[5].equals("true")){
+                    return true;
+                }
+            }
+
+            Reader.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
   public static void Register(){
       Scanner kb = new Scanner(System.in);
       String found;
