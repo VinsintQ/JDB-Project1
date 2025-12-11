@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,11 @@ public class LandingPage {
             System.out.println("6 - Transfer");
             System.out.println("7 - Account Statement");
             System.out.println("8 - Exit ");
+            if (c1.getUser_Role()=='B'){
+                System.out.println("10 - Turn Accounts Active");
+            }
+
+
             input= kb.nextLine();
 
             if (input.equals("1")){
@@ -169,6 +175,20 @@ public class LandingPage {
 
 
 
+            }else if (input.equals("10")){
+                if (c1.getUser_Role() == 'B') {
+                    List<User> inactiveUsers = ShowNotActiveUser(c1);
+                    inactiveUsers.forEach(user -> System.out.println(user.getId() + "  :  " + user.getUser_Name()));
+
+                    Scanner scanner = new Scanner(System.in);
+                    System.out.print("Enter user ID to activate: ");
+                    int idToActivate = scanner.nextInt();
+                    scanner.nextLine();
+
+                    activateUser(idToActivate);
+                }
+
+
             }else if(input.equals("7")){
 
                 for (Account acc :useraccounts){
@@ -194,4 +214,98 @@ public class LandingPage {
     }
 
 
+    public static List<User> ShowNotActiveUser(User b1){
+        List<User> notActiveUsers = new ArrayList<>();
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("Users.txt"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+
+                String[] parts = line.split(",");
+
+
+
+                int userid = Integer.parseInt(parts[0]);
+                String userName = parts[1];
+                String firstName = parts[2];
+                String lastName = parts[3];
+                String password = parts[4];
+                boolean Active = Boolean.parseBoolean(parts[5]);
+                char userRole = parts[6].charAt(0);
+
+                if (!Active) {
+                    User user;
+
+                    user = new Customer(userid, userName, firstName, lastName, password, Active, userRole);
+
+                    notActiveUsers.add(user);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return notActiveUsers;
+    }
+
+
+
+    public static void activateUser(int userId) {
+        String inputFile = "Users.txt";
+        List<String> lines = new ArrayList<>();
+
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        boolean found = false;
+        for (int i = 0; i < lines.size(); i++) {
+            String[] parts = lines.get(i).split(",");
+
+
+            int id = Integer.parseInt(parts[0]);
+            if (id == userId) {
+                parts[5] = "true";
+                lines.set(i, String.join(",", parts));
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            System.out.println("User ID " + userId + " not found.");
+            return;
+        }
+
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(inputFile, false));
+            for (String l : lines) {
+                writer.write(l);
+                writer.newLine();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+
+                }
+            }
+        }
+
+        System.out.println("User ID " + userId + " activated.");
+    }
+
 }
+

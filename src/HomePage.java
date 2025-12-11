@@ -139,7 +139,7 @@ public class HomePage {
              } catch (Exception e) {
                  throw new RuntimeException(e);
              }
-             System.out.println("your account has been created");
+             System.out.println("your account has been created - Will be reviewed and Activated in 24h");
 
              break;
          }else {
